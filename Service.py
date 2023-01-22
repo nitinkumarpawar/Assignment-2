@@ -114,6 +114,9 @@ def delete_answer():
 
 # --------------------------------------------------------------------------------
 def que_by_status():
+    userId = input("enter your userId: ")
+    questionId = input("enter question Id: ")
+    sortKey = "question#" + userId + "#" + questionId
 
     response = __connected_table__.query(
        KeyConditionExpression='#type = :typeval and sortKey = :sortKey',
@@ -125,8 +128,8 @@ def que_by_status():
        },
        ExpressionAttributeValues={
         ':typeval': 'question',
-        ':sortKey':'question#mugdha@harakirimail.com#5',
-        ':useridval': "mugdha@harakirimail.com",
+        ':sortKey': sortKey,
+        ':useridval': userId,
         ':statusval': 1
        },
        ProjectionExpression="question"
