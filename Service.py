@@ -1,7 +1,7 @@
 import os
-from datetime import date
+
 from pprint import pprint
-from email_validator import validate_email
+
 
 import boto3 as boto3
 from flask import Response
@@ -31,6 +31,7 @@ def get_all_que():
         }
     )
     pprint(response)
+    return Response("Fetching questions successfully", status=200)
 
 
 def get_que(data):
@@ -64,6 +65,7 @@ def put_answer(data):
         Item=item
     )
     print(response)
+    return Response("Successfully submit the answer", status=200)
 
 
 def edit_question(data):
@@ -80,6 +82,7 @@ def edit_question(data):
         ReturnValues="UPDATED_NEW"
     )
     print(response)
+    return Response("Successfully edit the question", status=200)
 
 
 def delete_answer(data):
@@ -92,6 +95,7 @@ def delete_answer(data):
 
     )
     pprint(response)
+    return Response("Successfully delete the answer", status=200)
 
 
 # --------------------------------------------------------------------------------
@@ -107,9 +111,10 @@ def que_by_status(data):
         ExpressionAttributeValues={
             ':typeval': 'question',
             ':sortKey': data['sortKey'],
-            #':useridval': data['userId'],
+            # ':useridval': data['userId'],
             ':statusval': "1"
         },
         ProjectionExpression="question"
     )
     print(response)
+    return Response("Fetching questions successfully", status=200)
