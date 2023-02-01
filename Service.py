@@ -4,12 +4,13 @@ from pprint import pprint
 from email_validator import validate_email
 
 import boto3 as boto3
+from flask import Response
 
 table = os.getenv("freshers-example")
 dynamo_client = boto3.resource(service_name='dynamodb', region_name='eu-west-1',
-                               aws_access_key_id='ASIAX2KHRAJA3OC5XT44',
-                               aws_secret_access_key='Cevb/2SSZPTc0C0v5pqyPjPpj1ljicKS0IEntiyl',
-                               aws_session_token='IQoJb3JpZ2luX2VjEEAaCWV1LXdlc3QtMSJHMEUCIEfwwIdhlJsEpvXkqEB7vbuDAFtfHUci8ULO5Wp8PcotAiEA0+rG7IAKJMgImM+EbNbNkx0WKrqFHjIhrhihV/R02Q4qnAMIqf//////////ARADGgw1Mzc1NTc3OTUzOTMiDGeOc3j8vmE6+upafirwAt3zvz9V23jTwMOZ2XNQCoiBWtkjFrZqaojMXkN3OYh2sqsNryDl/a9QjHrom4tDwfeq7pz0QdrEPlipz20ReS+jpkAjLyrBjePxL1fZn8SLtQZvOrRHu8a9FJ3t1yfuueToVvjd4LOrft0zwM5X+5AKMo+ksLomPW4Ajs77+tyrNVq3J7KwNHwk5EIUaiqpx3xPuCbFUnbE0i9i8TWxS3SCCye0cLZJ5yUEd7f4jkRE7KJ1MuC+/NWvbDKlXQT0QSUaPWTPC6TkbMV7LZG+yinA9nLrPF7jx92Mt0KcQ+TKBoIajLUHTWKkJsHDarxkGkLmx5FRMFZpvHt2cbQGHoiDH6oSKEhaQe16cTEsUAhonA6AhS7BHqc2dZ2tBnY8J34X3CqBSrTUfTCcRwLo8xu8mzTDlGpOZHUR4+4y6VSVOYBRzA/5Yp9KgQZCW9z2hTUbY1Vtn/rSySD0SiaIzvgrXqbPdMzRFokLoZt9z0STMM+TsJ4GOqYBgfVYqt65mZIt19WsX0ZxjTt94VcKbkuH8yRQP4GgGz9ksBJ67ATF9xrnYqsIS1NtyEyUJ8QN2IpBvaE/tr12ucZVuS2bzejvOpmHz7iWWB6cdPVA9x6r0KHDL3dEji9qAWFwjwu3JNBiVsh1UnD9+OOCIsvM/cilXN3RRsCN4DAk4vw2bBKYQjXIkX8gPkXHMBPHQ2scBm43VPK1zi/fCCub2vrc1Q=='
+                               aws_access_key_id='ASIAX2KHRAJA3K6KYR6G',
+                               aws_secret_access_key='E02euMniPu8qLO3zLBSJFHZr1YuQhctBN5uZuOn/',
+                               aws_session_token='IQoJb3JpZ2luX2VjECYaCWV1LXdlc3QtMSJHMEUCIQD6pac9qq88McSMi7Fri5dPoR4ta9l3/mC0pEDj6VZfygIgVqUQik48w8bESziSljROiKK7ufA+4xkAI8R5Y7BlnZAqnAMIn///////////ARADGgw1Mzc1NTc3OTUzOTMiDFqxv2doigOJMJUX9yrwAnV8gIMf5bDlowsZdJgvW27KnSShDe8qPHY8x0blVBVmy+B/FKAuH13U0FVQQcbx7A7rkE3TRapmHyNH0TCIrHFXnIGuBJW2m95ppebPzPW7BWd5/NSYf+erfzuVxIWpWuHaqIWUpeoEq2cle8d6qs9Fytfb8qyJLAjJX/nBqSzfSGDzb85OgNjFimRZbn/5bHQUZWcwyc+U+f9JB3Oe++ULJ8Hf3v8iZayj02PpTUDfnGdu4K+rcsXBYVc5OVzCAiio58GahdJZwt0JICEM3ZHLG5STLS8oeaB2NIA4mW1xF8bJkftDjCQo7LC00cmIpczbFk6gZ+h9or0Dghi9QnMyvpkOB1B4RzCJhArknkrnZtL3YZaIXbQ1PpQ+HZKEFc6GDKaWre7OVXQM6sZHm8IsMmH24fZK65hmYD+h9AsNUxKjgGLRHncwZb9xvdSi7/eeiEGh/HNdmhpGgWHUtXqOzUcn+oXA4BRQCRkg34gyMIrT4p4GOqYB1yAaIBCXJc33+geaY+UB3lriHhspmr73n4iNTJ7knhcUwhvdXSrxUjmtXjENANcwVfmbG5/ncFut/PiF6x+7etZQc2xAATC/oZwMVJfRCu4VbWT1xbQKZPLIgxT0gelbsT0WVFeykYnWF5tcKwgel6QKJbZhpsBUYJOkz0gxo0FWcOLrTLXBGrjpVOhZxJf7R6XfDB3Y1Evk1R/HcluvEz2rwCWBMQ=='
                                )
 __connected_table__ = dynamo_client.Table("freshers-example")
 print(__connected_table__.table_status)
@@ -19,8 +20,9 @@ def get_all_que():
     response = __connected_table__.query(
         KeyConditionExpression="#type = :type",
         ProjectionExpression='question',
+
         ExpressionAttributeNames={
-            "#type": "type"
+            "#type": "type",
 
         },
         ExpressionAttributeValues={
@@ -31,40 +33,28 @@ def get_all_que():
     pprint(response)
 
 
-def get_que():
-    userId = input("enter your userId: ")
-    questionId = input("enter question Id: ")
-    sortKey = "question#" + userId + "#" + questionId
-
+def get_que(data):
     response1 = __connected_table__.get_item(
         TableName="freshers-example",
         Key={
             'type': 'question',
-            'sortKey': sortKey,
+            'sortKey': data['sortKey'],
         },
 
         ProjectionExpression="question"
     )
-
     pprint(response1)
+    return Response("Fetching questions successfully", status=200)
 
 
-def put_answer():
-    answer = input("enter answer: ")
-    userId = input("enter your userId: ")
-    questionId = input("enter question Id: ")
-    sortKey = "answer#" + questionId + "#" + userId
-    createdAt = str(date.today())
-
-    print(createdAt)
-
+def put_answer(data):
     item = {
         'type': 'answer',
-        'sortKey': sortKey,
-        'answer': answer,
-        'createdAt': createdAt,
+        'sortKey': data['sortKey'],
+        'answer': data['answer'],
+        'createdAt': data['createdAt'],
         'status': 1,
-        'userId': userId
+        'userId': data['userId']
 
     }
 
@@ -76,35 +66,27 @@ def put_answer():
     print(response)
 
 
-def edit_question():
-    userId = input("enter your userId: ")
-    questionId = input("enter question Id: ")
-    edited_que = input("edited question: ")
-    sortKey = "question#" + userId + "#" + questionId
-
+def edit_question(data):
     response = __connected_table__.update_item(
         Key={
             'type': "question",
-            'sortKey': sortKey,
+            'sortKey': data['sortKey'],
 
         },
         UpdateExpression='SET question = :newQuestion',
         ExpressionAttributeValues={
-            ':newQuestion': edited_que
+            ':newQuestion': data['edited_que']
         },
         ReturnValues="UPDATED_NEW"
     )
     print(response)
 
 
-def delete_answer():
-    userId = input("enter your userId: ")
-    questionId = input("enter question Id: ")
-    sortKey = "answer#" + questionId + "#" + userId
+def delete_answer(data):
     response = __connected_table__.delete_item(
         Key={
             'type': "answer",
-            'sortKey': sortKey,
+            'sortKey': data['sortKey'],
 
         },
 
@@ -113,25 +95,21 @@ def delete_answer():
 
 
 # --------------------------------------------------------------------------------
-def que_by_status():
-    userId = input("enter your userId: ")
-    questionId = input("enter question Id: ")
-    sortKey = "question#" + userId + "#" + questionId
-
+def que_by_status(data):
     response = __connected_table__.query(
-       KeyConditionExpression='#type = :typeval and sortKey = :sortKey',
-       FilterExpression='#status = :statusval and userId = :useridval ',
-       ExpressionAttributeNames={
-        '#type': 'type',
+        KeyConditionExpression='#type = :typeval and sortKey = :sortKey',
+        FilterExpression='#status = :statusval',
+        ExpressionAttributeNames={
+            '#type': 'type',
 
-        '#status': 'status'
-       },
-       ExpressionAttributeValues={
-        ':typeval': 'question',
-        ':sortKey': sortKey,
-        ':useridval': userId,
-        ':statusval': 1
-       },
-       ProjectionExpression="question"
+            '#status': 'status'
+        },
+        ExpressionAttributeValues={
+            ':typeval': 'question',
+            ':sortKey': data['sortKey'],
+            #':useridval': data['userId'],
+            ':statusval': "1"
+        },
+        ProjectionExpression="question"
     )
-    print(response['Items'])
+    print(response)
