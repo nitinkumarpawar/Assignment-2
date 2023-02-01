@@ -2,16 +2,14 @@ import os
 
 from pprint import pprint
 
-
 import boto3 as boto3
 from flask import Response
 
 table = os.getenv("freshers-example")
 dynamo_client = boto3.resource(service_name='dynamodb', region_name='eu-west-1',
-                               aws_access_key_id='ASIAX2KHRAJA3K6KYR6G',
-                               aws_secret_access_key='E02euMniPu8qLO3zLBSJFHZr1YuQhctBN5uZuOn/',
-                               aws_session_token='IQoJb3JpZ2luX2VjECYaCWV1LXdlc3QtMSJHMEUCIQD6pac9qq88McSMi7Fri5dPoR4ta9l3/mC0pEDj6VZfygIgVqUQik48w8bESziSljROiKK7ufA+4xkAI8R5Y7BlnZAqnAMIn///////////ARADGgw1Mzc1NTc3OTUzOTMiDFqxv2doigOJMJUX9yrwAnV8gIMf5bDlowsZdJgvW27KnSShDe8qPHY8x0blVBVmy+B/FKAuH13U0FVQQcbx7A7rkE3TRapmHyNH0TCIrHFXnIGuBJW2m95ppebPzPW7BWd5/NSYf+erfzuVxIWpWuHaqIWUpeoEq2cle8d6qs9Fytfb8qyJLAjJX/nBqSzfSGDzb85OgNjFimRZbn/5bHQUZWcwyc+U+f9JB3Oe++ULJ8Hf3v8iZayj02PpTUDfnGdu4K+rcsXBYVc5OVzCAiio58GahdJZwt0JICEM3ZHLG5STLS8oeaB2NIA4mW1xF8bJkftDjCQo7LC00cmIpczbFk6gZ+h9or0Dghi9QnMyvpkOB1B4RzCJhArknkrnZtL3YZaIXbQ1PpQ+HZKEFc6GDKaWre7OVXQM6sZHm8IsMmH24fZK65hmYD+h9AsNUxKjgGLRHncwZb9xvdSi7/eeiEGh/HNdmhpGgWHUtXqOzUcn+oXA4BRQCRkg34gyMIrT4p4GOqYB1yAaIBCXJc33+geaY+UB3lriHhspmr73n4iNTJ7knhcUwhvdXSrxUjmtXjENANcwVfmbG5/ncFut/PiF6x+7etZQc2xAATC/oZwMVJfRCu4VbWT1xbQKZPLIgxT0gelbsT0WVFeykYnWF5tcKwgel6QKJbZhpsBUYJOkz0gxo0FWcOLrTLXBGrjpVOhZxJf7R6XfDB3Y1Evk1R/HcluvEz2rwCWBMQ=='
-                               )
+                               aws_access_key_id='ASIAX2KHRAJAWARNJJFC',
+                               aws_secret_access_key='R3k5t65iDBDJBerzmorCAvuYuHzzDTmjKpEiZv3z',
+                               aws_session_token='IQoJb3JpZ2luX2VjED4aCWV1LXdlc3QtMSJHMEUCIHjfs9G8w80n82FootQKaheiMwXoJiAAYzmCkE06zLV3AiEAt85CseuHja/9N1+i/1QJs2vAf7n4TnhJivp7NMZkaFQqnAMIt///////////ARADGgw1Mzc1NTc3OTUzOTMiDMiqx+6c2gkOXBfGDSrwAnnk+PnYYx33WBqZVkE8MJicd3oN7ElfiwaBbOJSuanIxaeRUpaRM/YnB/FB2WRFP5xQwX5CoEeTdYFF13/pooSv7FxccAvaA/3ICa5aY9HFGe/3oiJbMqYJqkOAafr51sPcsF+lo6zbs6OCJGNV6xReQX0x2JV6u04RYpsxqYxfx1HgI1kc+hQu7NHOoET+bjEra4RicAKc0bGRZgCJZXD5Px15XmuZoyGrMbkzZCdG3JBfgs7vJ/f5pMPQmCv4m4xXKa3OH6UMCjhKZuMmsnBFsZRRGzC1O/cxvRTHBzjEVmt/IWczu8yw6T+7h9+dLgN1UBza9TEsUUbw5qFCWzFmUescfGBgwaf5I75Ja7+/SqqdPhPA6tFlU9cX25UCs/VqiPF+IC10m0kON7EIDPM7sfs3B9k/kJx0QlrXzXTJO3y/SGn0WAY7X0DO89oGHlRvddMLaw28kLlqk23dhrmThr8d6Hh4kmaOHo0ZHsZKMLz6554GOqYBTckjKC+US97eyUGGGxGDahZcrZD4DW6QcCXEXRxXe7smKcHo2DrAYIJPG+4VVjmO77kdrFBEjmiHrFYeKuenLI2MgJzonIPbXZIw4WsG2rajX5uNXBUpC1IIh2vU7vu6thwCFSy9m27dztsF86PujQqpAmBCcu1PvzgE2M8fWTRA35G52a0K5MJlNbXGgWJteXMipHK5elJsiN5C7HALNImJLBLDTA==')
 __connected_table__ = dynamo_client.Table("freshers-example")
 print(__connected_table__.table_status)
 
@@ -35,7 +33,7 @@ def get_all_que():
 
 
 def get_que(data):
-    response1 = __connected_table__.get_item(
+    response = __connected_table__.get_item(
         TableName="freshers-example",
         Key={
             'type': 'question',
@@ -44,8 +42,14 @@ def get_que(data):
 
         ProjectionExpression="question"
     )
-    pprint(response1)
-    return Response("Fetching questions successfully", status=200)
+    pprint(response)
+
+    if "Item" in response and response["Item"] != {}:
+        print("SUCCESSFUL")
+        return Response("Fetching questions successfully", status=200)
+    else:
+        print("INVALID UserId and QuestionID ")
+        return Response("Bad Request", status=400)
 
 
 def put_answer(data):
@@ -65,7 +69,7 @@ def put_answer(data):
         Item=item
     )
     print(response)
-    return Response("Successfully submit the answer", status=200)
+    return Response("Successfully added a answer", status=200)
 
 
 def edit_question(data):
@@ -82,7 +86,7 @@ def edit_question(data):
         ReturnValues="UPDATED_NEW"
     )
     print(response)
-    return Response("Successfully edit the question", status=200)
+    print(Response("Successfully updated", status=200))
 
 
 def delete_answer(data):
@@ -95,7 +99,7 @@ def delete_answer(data):
 
     )
     pprint(response)
-    return Response("Successfully delete the answer", status=200)
+    print(Response("Successfully deleted", status=200))
 
 
 # --------------------------------------------------------------------------------
@@ -116,5 +120,11 @@ def que_by_status(data):
         },
         ProjectionExpression="question"
     )
-    print(response)
-    return Response("Fetching questions successfully", status=200)
+
+    if "Item" in response and response["Item"] != {}:
+        print(response)
+        print("SUCCESSFUL")
+        return Response(status=200)
+    else:
+        print("INVALID UserId and QuestionID ")
+        return Response(status=400)
