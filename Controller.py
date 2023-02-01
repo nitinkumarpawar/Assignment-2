@@ -8,7 +8,6 @@ def get_all():
     print("fetching all questions")
     que = get_all_que()
     print(que)
-    print(Response("Fetching questions successfully", status=200))
 
 
 # get_all()
@@ -44,10 +43,9 @@ def get_by_st():
     }
     que = que_by_status(data)
     print(que)
-    print(Response("Fetching questions successfully", status=200))
 
 
-get_by_st()
+# get_by_st()
 
 
 def put():
@@ -71,6 +69,7 @@ def put():
 
 # put()
 
+
 def update():
     print("Enter your data")
     userId = input("enter your userId: ")
@@ -85,7 +84,6 @@ def update():
     }
     ans = edit_question(data)
     print(ans)
-    print(Response("Successfully updated", status=200))
 
 
 # update()
@@ -102,6 +100,5 @@ def delete():
         "sortKey": sortKey
     }
     delete_answer(data)
-    print(Response("Successfully deleted", status=200))
 
 # delete()
